@@ -1,23 +1,17 @@
-create database practice3;
+show databases;
 
-use practice3;
+drop database demo;
+create database BankingDB;
+use BankingDB;
 
-create table practice3_table(
-customer_id int primary key,
-first_name varchar(50) not null,
-last_name varchar(50) not null,
-email varchar(100) unique not null,
-phone_number varchar(20)
+CREATE TABLE Customers
+(
+    CustomerID INT,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    Phone VARCHAR(15)
 );
-
-select*from practice3_table;
-
-insert into practice3_table (customer_id,first_name,last_name,email,phone_number)
-value ( 1001,"vishal","telange","telangevishal05@gmail.com","9823465698"),
-(1002,"ashok","padature","ashokpadature89@gmail.com","8723457609"),
-(1003,"dipak","giri","dipakgiri65@gmail.com","9503123670");
-
-select * from practice3_table;
 
 CREATE TABLE Accounts (
     AccountID INT,
@@ -25,16 +19,13 @@ CREATE TABLE Accounts (
     Balance DECIMAL(10,2)
 );
 
-select * from Accounts;
-select AccountID from Accounts;
-
 CREATE TABLE Transactions (
     TransactionID INT,
     TransactionDate DATE,
     Amount DECIMAL(10,2),
     TransactionType VARCHAR(20)
 );
-select * from Transactions;
+
 CREATE TABLE Branches (
     BranchID INT,
     BranchName VARCHAR(100),
@@ -42,12 +33,45 @@ CREATE TABLE Branches (
     BranchPhone VARCHAR(15)
 );
 
-select * from Branches;
- 
- ALTER TABLE Accounts
+CREATE TABLE AccountBranches ( 
+		AssignmentDate DATE
+);
+
+CREATE TABLE Loans (
+    LoanID INT,
+    LoanAmount DECIMAL(10,2),
+    InterestRate DECIMAL(5,2),
+    StartDate DATE,
+    EndDate DATE
+);
+
+ALTER TABLE customers
+ADD DateOfBrith DATE;
+
+select * from customers;
+
+ALTER TABLE Customers
+MODIFY Phone VARCHAR(20);
+
+ALTER TABLE Accounts
 ADD CONSTRAINT chk_MinBalance
 CHECK (Balance >= 1000);
 
- 
+DROP TABLE AccountBranches;
 
+ALTER TABLE Customers
+ADD PRIMARY KEY (CustomerID);
 
+ALTER TABLE Accounts
+ADD CustomerID INT;
+
+ALTER TABLE Accounts
+ADD CONSTRAINT FK_Accounts_Customers
+FOREIGN KEY (CustomerID)
+REFERENCES Customers(CustomerID);
+
+ALTER TABLE Customers
+MODIFY FirstName VARCHAR(50) NOT NULL;
+
+ALTER TABLE Customers
+ADD CONSTRAINT uq_Email UNIQUE (Email);
