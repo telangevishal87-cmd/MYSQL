@@ -113,3 +113,41 @@ FOREIGN KEY (CustomerID)
 REFERENCES Customers(CustomerID);
 
 
+INSERT INTO Customers
+(CustomerID, FirstName, LastName, Email, Phone, DateOfBrith )
+VALUES
+(101,'Rahul','Sharma','rahul@gmail.com','9876543210','1998-04-15');
+
+select * from Customers;
+
+INSERT INTO Accounts
+(AccountID, CustomerID, AccountType, Balance)
+VALUES
+(201,101,'Savings',25000);
+
+SET SQL_SAFE_UPDATES= 0;
+
+UPDATE Customers
+SET Phone='9999999999'
+WHERE CustomerID=101;
+
+SELECT * FROM Customers
+WHERE CustomerID = 101;
+
+UPDATE Customers
+SET Email='rahul.sharma@gmail.com'
+WHERE CustomerID=101;
+
+SELECT * FROM Customers
+WHERE CustomerID = 101;
+
+DELETE FROM Transactions
+WHERE TransactionID = 302;
+
+SELECT * FROM Transactions;
+
+DELETE FROM Accounts
+WHERE AccountID = 202;
+
+SELECT * FROM Accounts;
+
