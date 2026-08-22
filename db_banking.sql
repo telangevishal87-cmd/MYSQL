@@ -20,14 +20,44 @@ CREATE TABLE Accounts (
     AccountType VARCHAR(20),
     Balance DECIMAL(10,2)
 );
-
+INSERT INTO Accounts
+(AccountID, AccountType, Balance)
+VALUES
+(101, 'Savings', 25000.00),
+(102, 'Current', 50000.00),
+(103, 'Savings', 35000.00),
+(104, 'Current', 75000.00),
+(105, 'Savings', 45000.00),
+(106, 'Salary', 60000.00),
+(107, 'Savings', 55000.00),
+(108, 'Current', 90000.00),
+(109, 'Salary', 40000.00),
+(110, 'Savings', 70000.00);
+select * from accounts;
 CREATE TABLE Transactions (
     TransactionID INT,
     TransactionDate DATE,
     Amount DECIMAL(10,2),
     TransactionType VARCHAR(20)
 );
+INSERT INTO Transactions
+(TransactionID, TransactionDate, Amount, TransactionType)
+VALUES
+(1, '2024-01-05', 5000.00, 'Deposit'),
+(2, '2024-01-10', 1500.00, 'Withdrawal'),
+(3, '2024-01-15', 2500.00, 'Deposit'),
+(4, '2024-02-03', 1000.00, 'Withdrawal'),
+(5, '2024-02-10', 7500.00, 'Deposit'),
+(6, '2024-02-18', 2000.00, 'Transfer'),
+(7, '2024-03-05', 3500.00, 'Deposit'),
+(8, '2024-03-12', 1200.00, 'Withdrawal'),
+(9, '2024-03-20', 4500.00, 'Transfer'),
+(10, '2024-04-01', 8000.00, 'Deposit'),
+(11, '2024-04-10', 1800.00, 'Withdrawal'),
+(12, '2024-04-22', 3000.00, 'Transfer'),
+(13, '2024-05-05', 6000.00, 'Deposit');
 
+select * from Transactions;
 CREATE TABLE Branches (
     BranchID INT,
     BranchName VARCHAR(100),
@@ -46,6 +76,20 @@ CREATE TABLE Loans (
     StartDate DATE,
     EndDate DATE
 );
+
+INSERT INTO Loans
+(LoanID, LoanAmount, InterestRate, StartDate, EndDate)
+VALUES
+(101, 50000.00, 7.50, '2024-01-15', '2027-01-15'),
+(102, 75000.00, 8.25, '2024-03-10', '2028-03-10'),
+(103, 100000.00, 9.00, '2024-05-20', '2029-05-20'),
+(104, 45000.00, 7.75, '2024-07-01', '2026-07-01'),
+(105, 120000.00, 8.50, '2024-09-15', '2030-09-15'),
+(106, 65000.00, 7.25, '2025-01-10', '2028-01-10'),
+(107, 90000.00, 8.75, '2025-02-25', '2029-02-25'),
+(108, 55000.00, 7.90, '2025-04-05', '2027-04-05'),
+(109, 150000.00, 9.25, '2025-06-18', '2030-06-18'),
+(110, 80000.00, 8.00, '2025-08-22', '2028-08-22');
 
 ALTER TABLE customers
 ADD DateOfBrith DATE;
@@ -389,4 +433,47 @@ SELECT
         ORDER BY LoanAmount DESC
     ) AS NextLoanAmount
 FROM Loans;
+
+SELECT
+    a.AccountID, a.AccountType, a.Balance,
+    t.TransactionID,
+    t.TransactionDate,
+    t.TransactionType,
+    t.Amount
+FROM Accounts a
+INNER JOIN Transactions t
+ON a.AccountID = t.AccountID;
+
+SELECT
+    a.AccountID, a.AccountType, a.Balance,
+    t.TransactionID,
+    t.TransactionDate,
+    t.TransactionType,
+    t.Amount
+FROM Accounts a
+LEFT JOIN Transactions t
+ON a.AccountID = t.AccountID;
+
+SELECT
+    a.AccountID, a.AccountType, a.Balance,
+    t.TransactionID,
+    t.TransactionDate,
+    t.TransactionType,
+    t.Amount
+FROM Accounts a
+INNER JOIN Transactions t
+ON a.AccountID = t.AccountID
+WHERE t.TransactionType = 'Deposit';
+
+SELECT
+    a.AccountID, a.AccountType, a.Balance,
+    t.TransactionID,
+    t.TransactionDate,
+    t.TransactionType,
+    t.Amount
+FROM Accounts a
+INNER JOIN Transactions t
+ON a.AccountID = t.AccountID
+WHERE a.Balance > 30000
+ORDER BY a.Balance DESC;
 
